@@ -92,7 +92,13 @@ module Interactor
   #   # => #<MyInteractor @context=#<Interactor::Context>>
   def initialize(*args, **kw_args)
     @kw_args = kw_args
-    @context = Context.build(args.first || @kw_args)
+
+    # edge case where args[0] is a Context object
+    if args.length > 0
+      @context = Context.build(*args.first)
+    end
+
+    @context ||= Context.build(args.first || @kw_args)
   end
 
   # Internal: Invoke an interactor instance along with all defined hooks. The
