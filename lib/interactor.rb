@@ -46,8 +46,12 @@ module Interactor
     #
     # Returns the resulting Interactor::Context after manipulation by the
     #   interactor.
-    def call(context = {})
-      new(**context).tap(&:run).context
+    def call(context = {}, **args)
+      if context.is_a?(Context)
+        return new(context).tap(&:run).context
+      end
+
+      new(**args).tap(&:run).context
     end
 
     # Public: Invoke an Interactor. The "call!" method behaves identically to
@@ -98,7 +102,7 @@ module Interactor
       @context = Context.build(*args.first)
     end
 
-    @context ||= Context.build(args.first || @kw_args)
+    @context ||= Context.build(@kw_args)
   end
 
   # Internal: Invoke an interactor instance along with all defined hooks. The
