@@ -32,4 +32,4 @@ jobs:
         bundler-cache: true
 
     - name: Run Tests
-      run: bundle exec rake
+      run: bundle exec rspec
