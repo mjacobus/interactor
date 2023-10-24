@@ -13,7 +13,7 @@ shared_examples :lint do
     end
 
     it "provides a blank context if none is given" do
-      expect(interactor).to receive(:new).once.with({}) { instance }
+      expect(interactor).to receive(:new).once.with(no_args) { instance }
       expect(instance).to receive(:run).once.with(no_args)
 
       expect(interactor.call).to eq(context)
@@ -138,6 +138,28 @@ shared_examples :lint do
       expect(instance).to respond_to(:rollback)
       expect { instance.rollback }.not_to raise_error
       expect { instance.method(:rollback) }.not_to raise_error
+    end
+  end
+
+  context "keyword arguments" do
+    let(:service_class) do
+      Class.new do
+        include Interactor
+
+        def call(foo:, bar:, with_default: 'default')
+          context.args = [foo, bar, with_default]
+        end
+      end
+    end
+
+    it "works when all keyword arguments are passed" do
+      context = service_class.call(foo: "the-foo", bar: "the-bar")
+
+      expect(context.args).to eq(%w[the-foo the-bar default])
+    end
+
+    it "raises when keyword arguments are not properly passed" do
+      expect { service_class.call(foo: "the-foo") }.to raise_error(ArgumentError)
     end
   end
 end
