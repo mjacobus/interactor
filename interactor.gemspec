@@ -3,6 +3,7 @@ require "English"
 Gem::Specification.new do |spec|
   spec.name = "interactor"
   spec.version = "3.1.2"
+  spec.required_ruby_version = '>= 3.0'
 
   spec.author = "Collective Idea"
   spec.email = "info@collectiveidea.com"
