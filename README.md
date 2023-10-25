@@ -22,11 +22,11 @@ Include the `Interactor` module as well as the `Intractor::Strict`. That will al
 
 ```ruby
 class SomeService
-  include Interactor
   include Interactor::Strict # that will allow you to use keywords
 
-  def call(foo:, bar:, with_default: 'default')
-    context.result = [foo, bar, with_default]
+  # you should now use keyword arguments
+  def call(foo:, bar:, other_arg: 'default')
+    context.result = [foo, bar, other_arg]
   end
 end
 

@@ -4,27 +4,31 @@ module Interactor
   module Strict
     def self.included(base)
       base.class_eval do
+        include Interactor
         extend ClassMethods
+        include InstanceMethods
       end
     end
 
-    def initialize(*args, **kargs)
-      unless args.empty?
-        raise ArgumentError, "wrong number of arguments (given #{args.size}, expected 0)"
+    module InstanceMethods
+      def initialize(*args, **kargs)
+        unless args.empty?
+          raise ArgumentError, "wrong number of arguments (given #{args.size}, expected 0)"
+        end
+
+        @kargs = kargs
+        @context = Context.build(*args)
       end
 
-      @kargs = kargs
-      @context = Context.build(*args)
-    end
-
-    def run!
-      with_hooks do
-        call(**@kargs)
-        context.called!(self)
+      def run!
+        with_hooks do
+          call(**@kargs)
+          context.called!(self)
+        end
+      rescue
+        context.rollback!
+        raise
       end
-    rescue
-      context.rollback!
-      raise
     end
 
     module ClassMethods
