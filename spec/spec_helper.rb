@@ -3,6 +3,6 @@ if ENV["CODECLIMATE_REPO_TOKEN"]
   SimpleCov.start
 end
 
-require "interactor"
+require "interactor/strict"
 
 Dir[File.expand_path("../support/*.rb", __FILE__)].sort.each { |f| require f }
