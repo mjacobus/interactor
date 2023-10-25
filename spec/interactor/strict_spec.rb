@@ -5,7 +5,6 @@ require "interactor/strict"
 RSpec.describe Interactor::Strict do
   let(:service_class) do
     Class.new do
-      include Interactor
       include Interactor::Strict
 
       before :before_one
@@ -38,7 +37,6 @@ RSpec.describe Interactor::Strict do
 
   let(:loose_params_service) do
     Class.new do
-      include Interactor
       include Interactor::Strict
 
       def call(foo:, bar:, **others)
