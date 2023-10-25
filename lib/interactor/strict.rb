@@ -33,6 +33,10 @@ module Interactor
       def call(*args, **kargs)
         new(*args, **kargs).tap(&:run).context
       end
+
+      def call!(*args, **kargs)
+        new(*args, **kargs).tap(&:run!).context
+      end
     end
   end
 end
