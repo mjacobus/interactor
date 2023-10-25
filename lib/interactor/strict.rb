@@ -1,12 +1,10 @@
+require "interactor"
+
 module Interactor
   module Strict
     def self.included(base)
       base.class_eval do
         extend ClassMethods
-        include Hooks
-
-        # Public: Gets the Interactor::Context of the Interactor instance.
-        attr_reader :context
       end
     end
 
